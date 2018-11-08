@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Hsv Color Model</title>
+</head>
+
+<body>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.7/p5.js"></script>
+
+    <script type="text/javascript">
+
+        function preload() {
+            img = loadImage("https://raw.githubusercontent.com/scikit-image/scikit-image/master/skimage/data/astronaut.png");
+            img_h = createImage(256, 256);
+            img_s = createImage(256, 256);
+            img_v = createImage(256, 256);
+        }
+
+        function setup() {
+            createCanvas(512, 512);
+
+            img.resize(256, 256);
+
+            img.loadPixels();
+            img_h.loadPixels();
+            img_s.loadPixels();
+            img_v.loadPixels();
+
+            for (var i = 0; i < 256 * 256 * 4; i += 4) {
+                r = img.pixels[i] / 255;
+                g = img.pixels[i + 1] / 255;
+                b = img.pixels[i + 2] / 255;
+
+                cmax = Math.max(r, g, b);
+                cmin = Math.min(r, g, b);
+                v = cmax;
+
+                x = (i / 4) % 256;
+                y = (i / 4) / 256;
+
+                img_v.set(x, y, 255 * v);
+
+            }
+            img.updatePixels();
+            img_h.updatePixels();
+            img_s.updatePixels();
+            img_v.updatePixels();
+
+
+            image(img_h, 0, 0);
+            image(img_s, 256, 0);
+            image(img_v, 0, 256);
+            image(img, 256, 256);
+
+        }
+    </script>
+</body>
+
+</html>
